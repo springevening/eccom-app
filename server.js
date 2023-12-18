@@ -22,6 +22,63 @@ db.run(`CREATE TABLE IF NOT EXISTS products (
     price INTEGER,
     stock INTEGER    
   )`);
+db.run(`CREATE TABLE IF NOT EXISTS categories (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    description TEXT
+  )`);
+app.post("/api/product", (req, res) => {
+  const { name, description, price, stock } = req.body;
+  console.log(req.body);
+  db.run(
+    "INSERT INTO products (name, description, price, stock) VALUES (?, ?, ?, ?)",
+    [name, description, price, stock],
+    (err) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Internal Server Error");
+      } else {
+        res.json({ data: "data" });
+      }
+    }
+  );
+});
+app.post("/api/category", (req, res) => {
+  const { name, description } = req.body;
+  db.run(
+    "INSERT INTO categories (name, description) VALUES (?, ?)",
+    [name, description],
+    (err) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Internal Server Error");
+      } else {
+        res.sendStatus(201);
+      }
+    }
+  );
+});
+app.get("/api/products", (req, res) => {
+  console.log(req.query);
+  db.all(`SELECT * FROM products where id=${req.query.id}`, (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.json(rows);
+    }
+  });
+});
+app.get("/api/category", (req, res) => {
+  db.all("SELECT * FROM categories", (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.json(rows);
+    }
+  });
+});
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

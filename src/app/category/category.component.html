@@ -1,0 +1,22 @@
+<form (submit)="submitForm()">
+  <div>
+    <mat-label> Name:</mat-label>
+    <mat-form-field>
+      <input matInput placeholder="Name" [(ngModel)]="name" name="name" />
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-label> Desc:</mat-label>
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="description"
+        [(ngModel)]="description"
+        name="description"
+      />
+    </mat-form-field>
+  </div>
+  <mat-toolbar-row
+    ><button mat-raised-button type="submit">Submit</button></mat-toolbar-row
+  >
+</form>

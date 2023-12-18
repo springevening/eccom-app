@@ -1,0 +1,31 @@
+<form (submit)="submitForm()">
+  <mat-form-field>
+    Name:
+    <input
+      matInput
+      placeholder="Name"
+      [(ngModel)]="name"
+      name="name"
+    /> </mat-form-field
+  ><mat-form-field>
+    Desc:
+    <input
+      matInput
+      placeholder="description"
+      [(ngModel)]="description"
+      name="description"
+    /> </mat-form-field
+  ><mat-form-field>
+    Price:
+    <input
+      matInput
+      placeholder="price"
+      [(ngModel)]="price"
+      name="name"
+    /> </mat-form-field
+  ><mat-form-field
+    >Stock:
+    <input matInput placeholder="stock" [(ngModel)]="stock" name="stock" />
+  </mat-form-field>
+  <button mat-raised-button type="submit">Submit</button>
+</form>
