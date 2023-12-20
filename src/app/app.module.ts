@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { HttpClientModule } from '@angular/common/http';
 import { CategoryComponent } from './category/category.component';
 import { CategoryDetailsComponent } from './category-details/category-details.component';
+import { MatTableModule } from '@angular/material/table';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +36,8 @@ import { CategoryDetailsComponent } from './category-details/category-details.co
     FormsModule,
     MatInputModule,
     HttpClientModule,
+    MatTableModule,
+    MatButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
