@@ -22,14 +22,14 @@ db.run(`CREATE TABLE IF NOT EXISTS products (
     price INTEGER,
     stock INTEGER    
   )`);
-db.run(`CREATE TABLE IF NOT EXISTS categories (
+
+db.run(`CREATE TABLE IF NOT EXISTS categorys (
     id INTEGER PRIMARY KEY,
     name TEXT,
     description TEXT
   )`);
 app.post("/api/product", (req, res) => {
   const { name, description, price, stock } = req.body;
-  console.log(req.body);
   db.run(
     "INSERT INTO products (name, description, price, stock) VALUES (?, ?, ?, ?)",
     [name, description, price, stock],
@@ -38,29 +38,13 @@ app.post("/api/product", (req, res) => {
         console.error(err);
         res.status(500).send("Internal Server Error");
       } else {
-        res.json({ data: "data" });
-      }
-    }
-  );
-});
-app.post("/api/category", (req, res) => {
-  const { name, description } = req.body;
-  db.run(
-    "INSERT INTO categories (name, description) VALUES (?, ?)",
-    [name, description],
-    (err) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send("Internal Server Error");
-      } else {
-        res.sendStatus(201);
+        res.status(200);
       }
     }
   );
 });
 app.get("/api/products", (req, res) => {
-  console.log(req.query);
-  db.all(`SELECT * FROM products where id=${req.query.id}`, (err, rows) => {
+  db.all("SELECT * FROM products", (err, rows) => {
     if (err) {
       console.error(err);
       res.status(500).send("Internal Server Error");
@@ -69,8 +53,24 @@ app.get("/api/products", (req, res) => {
     }
   });
 });
-app.get("/api/category", (req, res) => {
-  db.all("SELECT * FROM categories", (err, rows) => {
+
+app.post("/api/category", (req, res) => {
+  const { name, description } = req.body;
+  db.run(
+    "INSERT INTO categorys (name, description) VALUES (?, ?)",
+    [name, description],
+    (err) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Internal Server Error");
+      } else {
+        res.status(200);
+      }
+    }
+  );
+});
+app.get("/api/categorys", (req, res) => {
+  db.all("SELECT * FROM categorys", (err, rows) => {
     if (err) {
       console.error(err);
       res.status(500).send("Internal Server Error");

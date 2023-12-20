@@ -1,6 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -9,19 +8,17 @@ import { Component } from '@angular/core';
 export class CategoryComponent {
   name: string = '';
   description: string = '';
+
   constructor(private http: HttpClient) {}
-  submitForm() {
+  SubmitForm() {
     const formData = {
       name: this.name,
       description: this.description,
     };
-    console.log(formData);
-
     this.http
       .post('http://localhost:3000/api/category', formData)
       .subscribe(() => {
-        console.log('data added successfully');
+        // Form submitted successfully, you can clear fields or show a success message
       });
   }
-  ngOnInit(): void {}
 }
