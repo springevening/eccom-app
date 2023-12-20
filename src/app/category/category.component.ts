@@ -1,5 +1,4 @@
-import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Category } from '../core/models/category/category';
 import { CategoryService } from '../core/services/category.service';
 import { ActivatedRoute } from '@angular/router';
@@ -9,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.css'],
 })
-export class CategoryComponent {
+export class CategoryComponent implements OnInit {
   id: string = '';
   name: string = '';
   description: string = '';

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Product } from '../core/models/product/product';
 import { Observable } from 'rxjs';
 import { ProductService } from '../core/services/product.service';
