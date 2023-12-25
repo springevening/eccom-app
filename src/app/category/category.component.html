@@ -1,15 +1,28 @@
-<form (submit)="SubmitForm()">
-  <mat-form-field>
-    <input matInput placeholder="Name" [(ngModel)]="name" name="name" />
-  </mat-form-field>
-  <mat-form-field>
-    <input
-      matInput
-      placeholder="Description"
-      [(ngModel)]="description"
-      name="description"
-    />
-  </mat-form-field>
-
-  <button mat-raised-button type="submit">Submit</button>
+<form (submit)="submitForm()">
+  <div class="category-form">
+    <div>
+      <mat-label> Name:</mat-label>
+      <mat-form-field>
+        <input matInput placeholder="Name" [(ngModel)]="name" name="name" />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-label> Desc:</mat-label>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="description"
+          [(ngModel)]="description"
+          name="description"
+        />
+      </mat-form-field>
+    </div>
+    <button mat-raised-button type="submit" *ngIf="flag; else update">
+      Submit
+    </button>
+    <ng-template #update>
+      <button mat-raised-button type="submit">update</button>
+    </ng-template>
+  </div>
 </form>
+<ng-toast></ng-toast>

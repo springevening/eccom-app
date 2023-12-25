@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const sqlite3 = require("sqlite3").verbose();
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3002;
 //const db = new sqlite3.Database('database.db');
 const cors = require("cors");
 app.use(cors()); // Add this line before defining routes
@@ -22,13 +22,12 @@ db.run(`CREATE TABLE IF NOT EXISTS products (
     price INTEGER,
     stock INTEGER    
   )`);
-
-db.run(`CREATE TABLE IF NOT EXISTS categorys (
+db.run(`CREATE TABLE IF NOT EXISTS categories (
     id INTEGER PRIMARY KEY,
     name TEXT,
     description TEXT
   )`);
-app.post("/api/product", (req, res) => {
+app.post("/api/ecom/product", (req, res) => {
   const { name, description, price, stock } = req.body;
   db.run(
     "INSERT INTO products (name, description, price, stock) VALUES (?, ?, ?, ?)",
@@ -38,39 +37,28 @@ app.post("/api/product", (req, res) => {
         console.error(err);
         res.status(500).send("Internal Server Error");
       } else {
-        res.status(200);
+        res.json({ data: { name, description, price, stock } });
       }
     }
   );
 });
-app.get("/api/products", (req, res) => {
-  db.all("SELECT * FROM products", (err, rows) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send("Internal Server Error");
-    } else {
-      res.json(rows);
-    }
-  });
-});
-
-app.post("/api/category", (req, res) => {
+app.post("/api/ecom/category", (req, res) => {
   const { name, description } = req.body;
   db.run(
-    "INSERT INTO categorys (name, description) VALUES (?, ?)",
+    "INSERT INTO categories (name, description) VALUES (?, ?)",
     [name, description],
     (err) => {
       if (err) {
         console.error(err);
         res.status(500).send("Internal Server Error");
       } else {
-        res.status(200);
+        res.sendStatus(201);
       }
     }
   );
 });
-app.get("/api/categorys", (req, res) => {
-  db.all("SELECT * FROM categorys", (err, rows) => {
+app.get("/api/ecom/product", (req, res) => {
+  db.all(`SELECT * FROM products `, (err, rows) => {
     if (err) {
       console.error(err);
       res.status(500).send("Internal Server Error");
@@ -79,7 +67,88 @@ app.get("/api/categorys", (req, res) => {
     }
   });
 });
-
+app.get("/api/ecom/category", (req, res) => {
+  db.all("SELECT * FROM categories", (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.json(rows);
+    }
+  });
+});
+app.get("/api/ecom/category/:id", (req, res) => {
+  const categoryId = req.params.id;
+  db.get("SELECT * FROM categories WHERE id = ? ", [categoryId], (err, row) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      if (row) {
+        res.json(row); // Found: Send the product details
+      } else {
+        res.status(404).json({ error: "Product Not Found" });
+      }
+    }
+  });
+});
+app.get("/api/ecom/product/:id", (req, res) => {
+  const productId = req.params.id;
+  db.get("SELECT * FROM products WHERE id = ?", [productId], (err, row) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      if (row) {
+        res.json(row); // Found: Send the product details
+      } else {
+        res.status(404).json({ error: "Product Not Found" });
+      }
+    }
+  });
+});
+app.put("/api/ecom/category", (req, res) => {
+  console.log(req.body);
+  const { id, field } = req.body;
+  let setFields = "";
+  let arr = [];
+  for (let i in field) {
+    setFields = setFields + i + "=?,";
+    arr.push(field[i]);
+  }
+  arr.push(id);
+  try {
+    db.run(
+      `update categories set ${setFields.substring(
+        0,
+        setFields.length - 1
+      )} where id= ?`,
+      arr,
+      (err, row) => {
+        if (err) {
+          res.status(500).send("Internal Server Error");
+        } else {
+          if (row) {
+            res.json(row); // Found: Send the product details
+          } else {
+            res.json({ status: "Category updated.." });
+          }
+        }
+      }
+    );
+  } catch (err) {}
+});
+// db.run(
+//   `update categories set description=?, name=? where id= ?`,
+//   ["updated by js obj", "BB", 2],
+//   (err, mm) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       console.log(err, mm);
+//     }
+//   }
+// );
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
