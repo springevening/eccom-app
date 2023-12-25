@@ -61,8 +61,15 @@ export class CategoryComponent implements OnInit {
               sticky: true,
             });
             setTimeout(() => {
-              window.location.reload();
-              // this.route.navigate(['category']);
+              // window.location.reload();
+              // this.route.navigate(['category']);this.route
+              this.route
+                .navigateByUrl('/', { skipLocationChange: true })
+                .then(() => {
+                  this.route.navigate(['/categorydetails']).then(() => {
+                    console.log('After updating category-->', this.route.url);
+                  });
+                });
             }, 2000);
           },
           (err) => console.log(err)
@@ -81,7 +88,7 @@ export class CategoryComponent implements OnInit {
           .subscribe((data) => {
             console.log(data);
             // if (data['id']) {
-            this.name = data['name']; 
+            this.name = data['name'];
             this.description = data['description'];
             this.flag = false;
             // } else {
