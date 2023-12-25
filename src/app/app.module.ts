@@ -16,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CategoryComponent } from './category/category.component';
 import { CategoryDetailsComponent } from './category-details/category-details.component';
 import { MatTableModule } from '@angular/material/table';
+import { NgToastModule } from 'ng-angular-popup';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +39,7 @@ import { MatTableModule } from '@angular/material/table';
     HttpClientModule,
     MatTableModule,
     MatButtonModule,
+    NgToastModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

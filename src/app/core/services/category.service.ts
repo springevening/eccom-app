@@ -20,4 +20,7 @@ export class CategoryService {
     const url = `${this.apiUrl}/${id}`;
     return this.http.get<Category>(url);
   }
+  updateCategoryById(object: Object): Observable<{ id: number }> {
+    return this.http.put<{ id: number }>(this.apiUrl, object);
+  }
 }

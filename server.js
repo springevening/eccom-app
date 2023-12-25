@@ -107,6 +107,48 @@ app.get("/api/ecom/product/:id", (req, res) => {
     }
   });
 });
+app.put("/api/ecom/category", (req, res) => {
+  console.log(req.body);
+  const { id, field } = req.body;
+  let setFields = "";
+  let arr = [];
+  for (let i in field) {
+    setFields = setFields + i + "=?,";
+    arr.push(field[i]);
+  }
+  arr.push(id);
+  try {
+    db.run(
+      `update categories set ${setFields.substring(
+        0,
+        setFields.length - 1
+      )} where id= ?`,
+      arr,
+      (err, row) => {
+        if (err) {
+          res.status(500).send("Internal Server Error");
+        } else {
+          if (row) {
+            res.json(row); // Found: Send the product details
+          } else {
+            res.json({ status: "Category updated.." });
+          }
+        }
+      }
+    );
+  } catch (err) {}
+});
+// db.run(
+//   `update categories set description=?, name=? where id= ?`,
+//   ["updated by js obj", "BB", 2],
+//   (err, mm) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       console.log(err, mm);
+//     }
+//   }
+// );
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

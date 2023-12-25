@@ -1,8 +1,19 @@
-<table mat-table [dataSource]="catagories" class="mat-elevation-z8">
+<table
+  *ngIf="flag; else info"
+  mat-table
+  [dataSource]="catagories"
+  class="mat-elevation-z8"
+>
   <ng-container matColumnDef="ID">
     <th mat-header-cell *matHeaderCellDef>ID</th>
-    <td mat-cell *matCellDef="let element">
-      <a [routerLink]="['/category', element.id]">{{ element.id }}</a>
+    <td
+      mat-cell
+      *matCellDef="let element"
+      (click)="getID(element.id)"
+      class="cursor"
+    >
+      <!-- <a [routerLink]="['/category', element.id]">{{ element.id }}</a> -->
+      {{ element.id }}
     </td>
   </ng-container>
 
@@ -20,3 +31,6 @@
   <tr mat-header-row *matHeaderRowDef="columndefs"></tr>
   <tr mat-row *matRowDef="let row; columns: columndefs"></tr>
 </table>
+<ng-template #info>
+  <app-category [value]="value"></app-category>
+</ng-template>

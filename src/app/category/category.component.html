@@ -17,6 +17,12 @@
         />
       </mat-form-field>
     </div>
-    <button mat-raised-button type="submit" *ngIf="flag">Submit</button>
+    <button mat-raised-button type="submit" *ngIf="flag; else update">
+      Submit
+    </button>
+    <ng-template #update>
+      <button mat-raised-button type="submit">update</button>
+    </ng-template>
   </div>
 </form>
+<ng-toast></ng-toast>
