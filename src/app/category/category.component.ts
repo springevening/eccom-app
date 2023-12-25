@@ -23,6 +23,10 @@ export class CategoryComponent implements OnInit {
     private toast: NgToastService,
     private route: Router
   ) {}
+  reset(): void {
+    this.name = '';
+    this.description = '';
+  }
   submitForm() {
     if (this.flag) {
       // const formData = {
@@ -40,7 +44,25 @@ export class CategoryComponent implements OnInit {
       //     console.log('data added successfully');
       //   });
       this.categoryService.createCategory(category).subscribe((data) => {
-        console.log(data);
+        if (data) {
+          console.log(data);
+          this.toast.success({
+            detail: 'created',
+            summary: 'New category added ',
+            position: 'topRight',
+            sticky: true,
+            duration: 2500,
+          });
+          this.reset();
+        } else {
+          this.toast.error({
+            detail: 'Not created',
+            summary: 'unable to category added ',
+            position: 'topRight',
+            sticky: true,
+            duration: 2500,
+          });
+        }
       });
     } else {
       console.log('update');

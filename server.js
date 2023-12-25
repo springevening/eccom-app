@@ -52,7 +52,7 @@ app.post("/api/ecom/category", (req, res) => {
         console.error(err);
         res.status(500).send("Internal Server Error");
       } else {
-        res.sendStatus(201);
+        res.json({ status: "Created Data" });
       }
     }
   );
